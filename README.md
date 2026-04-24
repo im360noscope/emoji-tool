@@ -1,4 +1,6 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+#Installation
+I suggest using Obtainium and adding the repository's URL. This way you will receive updates as they come out.
 
 # Getting Started
 
