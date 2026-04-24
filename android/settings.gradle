@@ -1,0 +1,15 @@
+pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
+plugins { id("com.facebook.react.settings") }
+extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
+    def nodeExecutable = "node"
+    if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+        def nodeInProgramFiles = file("C:/Program Files/nodejs/node.exe")
+        if (nodeInProgramFiles.exists()) {
+            nodeExecutable = nodeInProgramFiles.absolutePath
+        }
+    }
+    ex.autolinkLibrariesFromCommand([nodeExecutable, "node_modules/@react-native-community/cli/build/bin.js", "config"])
+}
+rootProject.name = 'EmojiApp'
+include ':app'
+includeBuild('../node_modules/@react-native/gradle-plugin')
