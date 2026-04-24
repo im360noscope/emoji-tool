@@ -1,6 +1,17 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-#Installation
+
+# Installation
 I suggest using Obtainium and adding the repository's URL. This way you will receive updates as they come out.
+
+# Feature Roadmap (not here yet)
+**These aren't guaranteed, but will do my best!**
+- jump through categories quickly and easily
+- better alignment with lightOS design language
+- add same emoji multiple times
+- search emoji by name
+
+# Feedback
+I'd love to hear from you! This tool is meant to be a playground and the community is welcome to hop on. Give me your suggestions on how the code can be cleaned up, or feel free to riff on it yourself. 
 
 # Getting Started
 
