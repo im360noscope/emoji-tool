@@ -11,9 +11,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { HapticPressable } from "@/components/HapticPressable";
 import { StyledText } from "@/components/StyledText";
 import { useInvertColors } from "@/contexts/InvertColorsContext";
+import { useSelected } from "@/contexts/SelectedContext";
 import { n } from "@/utils/scaling";
-
-// ─── Emoji Data ───────────────────────────────────────────────────────────────
 
 const EMOJI_CATEGORIES: { label: string; emojis: string[] }[] = [
   {
@@ -163,8 +162,6 @@ const EMOJI_CATEGORIES: { label: string; emojis: string[] }[] = [
   },
 ];
 
-// ─── Build flat row list (headers + emoji rows) ───────────────────────────────
-
 const COLS = 6;
 
 type RowItem =
@@ -184,22 +181,15 @@ function buildRows(): RowItem[] {
 
 const ROWS = buildRows();
 
-// ─── Screen ───────────────────────────────────────────────────────────────────
-
-export default function EmojiScreen() {
+export default function HomeScreen() {
   const { invertColors } = useInvertColors();
   const { width } = useWindowDimensions();
-  const [selected, setSelected] = useState<string[]>([]);
+  const { selected, addEmoji, clearEmoji } = useSelected();
   const [copied, setCopied] = useState(false);
 
   const cellSize = width / COLS;
   const bg = invertColors ? "white" : "black";
   const dividerColor = invertColors ? "#DDDDDD" : "#1A1A1A";
-
-  const handleEmojiTap = useCallback((emoji: string) => {
-    setSelected((prev) => [...prev, emoji]);
-    setCopied(false);
-  }, []);
 
   const handleCopy = useCallback(() => {
     if (selected.length === 0) return;
@@ -209,24 +199,12 @@ export default function EmojiScreen() {
     setTimeout(() => setCopied(false), 2000);
   }, [selected]);
 
-  const handleClear = useCallback(() => {
-    setSelected([]);
-    setCopied(false);
-  }, []);
-
   const renderRow = useCallback(
     ({ item }: { item: RowItem }) => {
       if (item.type === "header") {
         return (
-          <View
-            style={[
-              styles.sectionHeader,
-              { borderBottomColor: dividerColor },
-            ]}
-          >
-            <StyledText style={styles.sectionHeaderText}>
-              {item.label}
-            </StyledText>
+          <View style={[styles.sectionHeader, { borderBottomColor: dividerColor }]}>
+            <StyledText style={styles.sectionHeaderText}>{item.label}</StyledText>
           </View>
         );
       }
@@ -235,7 +213,7 @@ export default function EmojiScreen() {
           {item.items.map((emoji, idx) => (
             <HapticPressable
               key={`${emoji}-${idx}`}
-              onPress={() => handleEmojiTap(emoji)}
+              onPress={() => addEmoji(emoji)}
               style={{ width: cellSize, height: cellSize, justifyContent: "center", alignItems: "center" }}
             >
               <StyledText style={[styles.emojiText, { fontSize: n(22) }]}>
@@ -246,24 +224,19 @@ export default function EmojiScreen() {
         </View>
       );
     },
-    [cellSize, dividerColor, handleEmojiTap]
+    [cellSize, dividerColor, addEmoji]
   );
 
   return (
     <SafeAreaView style={[styles.root, { backgroundColor: bg }]}>
-      {/* Header */}
+      {/* Header — COPY left, CLEAR right */}
       <View style={[styles.header, { borderBottomColor: dividerColor }]}>
         <HapticPressable onPress={handleCopy}>
-          <StyledText
-            style={[
-              styles.headerBtn,
-              copied && styles.headerBtnDone,
-            ]}
-          >
+          <StyledText style={[styles.headerBtn, copied && styles.headerBtnDone]}>
             {copied ? "COPIED" : "COPY"}
           </StyledText>
         </HapticPressable>
-        <HapticPressable onPress={handleClear}>
+        <HapticPressable onPress={clearEmoji}>
           <StyledText style={styles.headerBtn}>CLEAR</StyledText>
         </HapticPressable>
       </View>
@@ -293,12 +266,8 @@ export default function EmojiScreen() {
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
+  root: { flex: 1 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
