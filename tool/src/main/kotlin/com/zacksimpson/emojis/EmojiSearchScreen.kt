@@ -24,9 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import com.thelightphone.lp3Keyboard.ui.DefaultLp3KeyboardViewModel
-import com.thelightphone.lp3Keyboard.ui.Layout
 import com.thelightphone.lp3Keyboard.ui.LayoutOptions
+import com.thelightphone.lp3Keyboard.ui.layout.Layout
+import com.thelightphone.lp3Keyboard.ui.viewmodel.EnQwertyLp3KeyboardViewModel
 import com.thelightphone.sdk.rememberKeyboardOptions
 import com.thelightphone.sdk.ui.LightBarButton
 import com.thelightphone.sdk.ui.LightText
@@ -68,7 +68,7 @@ fun EmojiSearchContent(
     // visit would keep reusing that first instance, still wired to an already-disposed
     // TextFieldState, leaving the keyboard visually present but functionally dead.
     val keyboardViewModel = remember(callback, keyboardOptionsFlow) {
-        DefaultLp3KeyboardViewModel(
+        EnQwertyLp3KeyboardViewModel<Unit>(
             callback,
             keyboardOptionsFlow = keyboardOptionsFlow,
             // Always show the close key, on every sub-layout (letters/numbers/symbols/emoji) —

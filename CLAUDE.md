@@ -42,10 +42,9 @@ sdk/.gitkeep              — placeholder so Gradle's structural `:sdk` parent p
 - Custom icons not in `LightIcons` (e.g. the Recents tab icon) need **two pre-colored vector
   drawables** (`_white`/`_black`), since `LightBarButton.Icon` renders via a plain `Image`, not
   the tint-aware `LightIcon` composable — unlike `LightBarButton.LightIcon`, it won't auto-tint.
-- `LightIcons.TOGGLE_ON`/`TOGGLE_OFF` render backwards from their names (checked the raw vector
-  paths directly): `TOGGLE_ON`'s knob sits on the *left* of the track, `TOGGLE_OFF`'s on the
-  *right*. `ToggleSwitch.kt` deliberately inverts the mapping to compensate. Their intended size
-  is `2f` (matches `LightIcon`'s own default and how the SDK's icon gallery renders every icon).
+- `LightIcons.TOGGLE_STATE_ON`/`TOGGLE_STATE_OFF` (renamed from `TOGGLE_ON`/`TOGGLE_OFF` upstream)
+  render correctly as of the SDK's `3fa2281` — no inversion needed. Their intended size is `2f`
+  (matches `LightIcon`'s own default and how the SDK's icon gallery renders every icon).
 
 ## Architecture
 
@@ -97,10 +96,6 @@ release build, not debug.** Compose debug builds carry substantial tracing/tooli
 R8 strips in release — on the LP3's hardware this is the difference between ~60% janky frames and
 ~1%. A debug-only perf complaint that reproduces in release is a real bug; one that doesn't is
 just debug-build overhead.
-
-Needs a GitHub PAT with `read:packages` scope for the `lp3keyboard` GitHub Packages dependency —
-either `GH_PACKAGES_USER`/`GH_PACKAGES_TOKEN` env vars or `gpr.user`/`gpr.key` in a (gitignored)
-`local.properties`.
 
 ## Build / release
 

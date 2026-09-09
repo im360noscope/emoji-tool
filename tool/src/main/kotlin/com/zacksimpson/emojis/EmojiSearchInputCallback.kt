@@ -3,8 +3,8 @@ package com.zacksimpson.emojis
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.delete
 import androidx.compose.ui.text.TextRange
-import com.thelightphone.lp3Keyboard.ui.Lp3RepeatableKeyboardCallback
 import com.thelightphone.lp3Keyboard.ui.SpecialKey
+import com.thelightphone.lp3Keyboard.ui.viewmodel.Lp3RepeatableKeyboardCallback
 
 /**
  * The SDK's own text-input callback (TextInputKeyboardCallback) is internal to sdk:ui, so
@@ -25,6 +25,10 @@ class EmojiSearchInputCallback(
 
     override fun onKeyReleased(code: Int) {
         insertCodePoint(code)
+    }
+
+    override fun onSubmitWord(word: CharSequence) {
+        insertAtCursor(word.toString())
     }
 
     override fun onSpecialKeyReleased(key: SpecialKey) {
@@ -54,8 +58,8 @@ class EmojiSearchInputCallback(
         insertCodePoint(code)
     }
 
-    override fun onSpecialKeyRepeated(key: SpecialKey) {
-        if (key == SpecialKey.Space) insertAtCursor(" ")
+    override fun onSpecialKeyRepeated(specialKey: SpecialKey) {
+        if (specialKey == SpecialKey.Space) insertAtCursor(" ")
     }
 
     private fun insertCodePoint(code: Int) {

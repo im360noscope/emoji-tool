@@ -26,7 +26,6 @@ This app is built against the [Light SDK](https://github.com/lightphone/light-sd
 
 - JDK 17
 - Android SDK
-- A GitHub personal access token with `read:packages` scope, for the `lp3keyboard` dependency hosted on GitHub Packages
 
 ### Steps
 
@@ -35,13 +34,6 @@ git clone --recurse-submodules https://github.com/zacksimpson/emoji-tool.git
 cd emoji-tool
 # if you cloned without --recurse-submodules:
 git submodule update --init
-
-# GitHub Packages credentials — either env vars:
-export GH_PACKAGES_USER=your_username
-export GH_PACKAGES_TOKEN=your_token
-# or a local.properties file (gitignored):
-echo "gpr.user=your_username" >> local.properties
-echo "gpr.key=your_token" >> local.properties
 
 ./gradlew :tool:installDebug   # build + install to a connected device/emulator
 ./gradlew :tool:assembleRelease
