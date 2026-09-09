@@ -268,10 +268,10 @@ private fun SettingsModeContent(
             value = showTopUsedPreview,
             onValueChange = onShowTopUsedPreviewChange,
         )
-        ToggleSwitch(
-            label = "Horizontal Scroll",
-            value = horizontalLayout,
-            onValueChange = onHorizontalLayoutChange,
+        SelectSettingRow(
+            label = "Scroll Direction",
+            value = if (horizontalLayout) "Horizontal" else "Vertical",
+            onClick = { onHorizontalLayoutChange(!horizontalLayout) },
         )
     }
 }
