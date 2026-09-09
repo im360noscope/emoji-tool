@@ -59,7 +59,7 @@ class EmojiToolScreen(sealedActivity: SealedLightActivity) :
         val mode by viewModel.mode.collectAsState()
         val selected by SelectionStore.selected.collectAsState()
         val copied by viewModel.copied.collectAsState()
-        val recents by viewModel.recents.collectAsState()
+        val recentsSnapshot by viewModel.recentsSnapshot.collectAsState()
         val topUsedPreview by viewModel.topUsedPreview.collectAsState()
         val showTopUsedPreview by viewModel.showTopUsedPreview.collectAsState()
         val horizontalLayout by viewModel.horizontalLayout.collectAsState()
@@ -93,7 +93,7 @@ class EmojiToolScreen(sealedActivity: SealedLightActivity) :
                     EmojiMode.Recents -> RecentsModeContent(
                         selected = selected,
                         copied = copied,
-                        recents = recents,
+                        recents = recentsSnapshot,
                         onCopy = viewModel::copySelection,
                         onClear = viewModel::clearSelection,
                         onEmojiTap = viewModel::selectEmoji,

@@ -53,7 +53,7 @@ class RecentsStore private constructor(private val dataStore: DataStore<Preferen
 
     private val _counts = MutableStateFlow<Map<String, Int>>(emptyMap())
     private val _recency = MutableStateFlow<List<String>>(emptyList())
-    private val _sortMode = MutableStateFlow(SortMode.TopUsed)
+    private val _sortMode = MutableStateFlow(SortMode.MostRecent)
     val sortMode: StateFlow<SortMode> = _sortMode.asStateFlow()
 
     private val _showTopUsedPreview = MutableStateFlow(false)

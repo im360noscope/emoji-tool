@@ -20,16 +20,19 @@ class EmojiToolViewModel(private val recentsStore: RecentsStore) : LightViewMode
     private val _copied = MutableStateFlow(false)
     val copied: StateFlow<Boolean> = _copied.asStateFlow()
 
-    val recents: StateFlow<List<String>> = recentsStore.recents
     val sortMode: StateFlow<SortMode> = recentsStore.sortMode
     val showTopUsedPreview: StateFlow<Boolean> = recentsStore.showTopUsedPreview
     val horizontalLayout: StateFlow<Boolean> = recentsStore.horizontalLayout
 
-    // A snapshot, not a live view of RecentsStore — refreshed only when arriving at Grid
-    // (including cold start), not on every tap while already sitting there. Gives it a
-    // different, slower-changing character than the always-fresh Recents tab.
+    // Both are snapshots, not live views of RecentsStore — refreshed only when arriving at that
+    // screen (including cold start for the Grid's preview), not on every tap while already
+    // sitting there. Otherwise tapping an emoji on the Recents tab would shift it (now most
+    // recent) out from under the next tap.
     private val _topUsedPreview = MutableStateFlow<List<String>>(emptyList())
     val topUsedPreview: StateFlow<List<String>> = _topUsedPreview.asStateFlow()
+
+    private val _recentsSnapshot = MutableStateFlow<List<String>>(emptyList())
+    val recentsSnapshot: StateFlow<List<String>> = _recentsSnapshot.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -43,6 +46,7 @@ class EmojiToolViewModel(private val recentsStore: RecentsStore) : LightViewMode
     }
 
     fun openRecents() {
+        _recentsSnapshot.value = recentsStore.recents.value
         _mode.value = EmojiMode.Recents
     }
 
